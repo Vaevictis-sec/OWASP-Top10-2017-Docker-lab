@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+#Initial foothold
+	attack:
+               	build: ./attack_container/
+                ports:
+                      	-"2222:22"
+#Top1
+        inject:
+               	build: ./inject_container/
+#Top2
+        brokenauth:
+                build: ./brokenauth_container/
+#Top3
+        sensitive:
+                build: ./sensitive_container/
+#Top4
+        XXE:
+                build: ./XXE_container/
+#Top5
+#	FALTA ACCESOS DE CONTROL INSEGUROS
+#Top6
+#	FALTA FALLOS EN	CONFIGURACIONES	DE SEGURIDAD
+#Top7
+        XSS:	
+                build: ./XSS_container/
+#Top8
+	FALTA DES-SERIALIZACIONES INSEGURAS
+#Top9
+	FALTA COMPONENTES CON VULNERABILIDADES CONOCIDAS
+#Top10
+	FALTA LOGGING O MONITORIZACION INSUFICIENTE

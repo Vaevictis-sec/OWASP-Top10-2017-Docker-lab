@@ -1,0 +1,4 @@
+tar -czf ../destino/final.tar.gz *.php
+ls -l ../destino
+
+PARA QUE FUNCIONE EL ATAQUE HAY QUE AÑADIR FICHEROS "GRANDES" PARA QUE EL SCRIPT DE ATAQUE TARDE Y ENTRE A LA FUNCION "checkpoint"

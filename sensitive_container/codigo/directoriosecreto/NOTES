@@ -1,0 +1,2 @@
+Para sacar 50 passwords aleatorias de rockyou en formato md5:
+for i in {1..50}; do sed -n $(shuf -i 1-14344392 -n 1)p /usr/share/wordlists/rockyou.txt | tr -d '\n' | md5sum | awk '{print $1}'; done

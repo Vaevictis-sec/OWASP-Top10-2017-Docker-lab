@@ -1,0 +1,12 @@
+abrir index.php con vi y despues navegar a
+172.17.0.8/.index.php.swp
+Para poder leer el codigo fuente
+
+
+https://www.exploit-db.com/ghdb/96
+https://www.google.com/search?q=%22robots.txt%22%20%22Disallow:%22%20filetype:txt
+https://iot.telefonica.com/robots.txt
+https://iot.telefonica.com/CHANGELOG.txt
+
+Para sacar 50 passwords aleatorias de rockyou en formato md5:
+for i in {1..50}; do sed -n $(shuf -i 1-14344392 -n 1)p /usr/share/wordlists/rockyou.txt | tr -d '\n' | md5sum | awk '{print $1}'; done
