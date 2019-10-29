@@ -10,19 +10,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 USE things;
 
-DROP TABLE IF EXISTS `dump`;
-CREATE TABLE `dump` (
-  `id` int(9) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(60) NOT NULL UNIQUE,
-  `password` varchar(200) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
-
-INSERT INTO `dump` VALUES ('1','tabib123','kamahamaha123'),
-('2','thomaspoopoo','minecraft12'),
-('3','spiderman','c7b4'),
-('4','carlos','C4rl0s87');
-
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(9) unsigned NOT NULL AUTO_INCREMENT,
@@ -79,7 +66,7 @@ INSERT INTO `users` VALUES ('1','Miss Brionna Walter PhD','05e8c5cd75a1dfba01385
 ('45','Darren Koepp','1804acee7b0a7c04702d6460aebf106b','hfay@example.com'),
 ('46','Maggie Wyman','45c74df9ae9ba9eda2d69fabd7cb7f7d','reinger.kurtis@example.com'),
 ('47','Emmalee DuBuque','2da0a0ecb0347c05f0d81da96d26159b','roberts.jeramy@example.net'),
-('48','Mr. Warren Hilpert','7103cb38ca6c283e31924115ee3ae90e','lula.d\'amore@example.org'),
+('48','Mr. Warren Hilpert','7103cb38ca6c283e31924115ee3ae90e','lula.damore@example.org'),
 ('49','Clyde Keeling PhD','5ce648db36768852021b153ed4983e15','zbauch@example.com'),
 ('50','Lucinda Fahey','e8254427698b7274984322d001e38349','johns.gunner@example.org'),
 ('51','Ms. Reina Gaylord','84dabcfda9379c76acfc9c281dd23f17','hickle.johnathan@example.com'),
@@ -108,7 +95,7 @@ INSERT INTO `users` VALUES ('1','Miss Brionna Walter PhD','05e8c5cd75a1dfba01385
 ('74','Keven Hodkiewicz IV','ce21a8a1167ec3f7774ba944a5b9dc0b','fwilkinson@example.com'),
 ('75','Kaylie Zulauf PhD','618445a7bdf815eb72ce7e1ade82c325','tsanford@example.com'),
 ('76','Kaitlin Toy','775874e45c69f26658d8089112fd58e1','okey.hartmann@example.net'),
-('77','Chandler O\'Hara','f9cdbdecc7c58dd66fedb98144418406','xmckenzie@example.net'),
+('77','Chandler Ohara','f9cdbdecc7c58dd66fedb98144418406','xmckenzie@example.net'),
 ('78','Oswaldo Murazik','c3a67fb3d73ce09d95f0c384450de900','sherman.shanahan@example.com'),
 ('79','Mariela Terry','558ee4ebf3dd6d05b1a5b0f88e3a05eb','faustino67@example.com'),
 ('80','Gino Mante','b5790027076a623eb90fb8aee73f56c1','jadyn.roob@example.com'),
@@ -117,7 +104,7 @@ INSERT INTO `users` VALUES ('1','Miss Brionna Walter PhD','05e8c5cd75a1dfba01385
 ('83','Trevor Ondricka','731259fb23b18f98f6a29857600da4cb','abby.smith@example.org'),
 ('84','Henriette Gibson','04703e4443d107d655113bcbd2b31404','effertz.connie@example.com'),
 ('85','Shany McDermott PhD','4eb2352e30e5fd4317078fdacd586de6','bennett.zboncak@example.net'),
-('86','Scottie Lind','7b87c0429f417ddbc5b151bcab09d8e4','o\'connell.kadin@example.com'),
+('86','Scottie Lind','7b87c0429f417ddbc5b151bcab09d8e4','oconnell.kadin@example.com'),
 ('87','Dameon Deckow I','43aceeab897e207b4d7848cbd8535df5','madison.feest@example.net'),
 ('88','Jackie Heidenreich','8bd3b21a481af9946db0c16a0427608e','steuber.merle@example.com'),
 ('89','Prof. Hulda Armstrong MD','6f99749589e7315cbad817305ed866c1','qheaney@example.org'),
@@ -133,8 +120,36 @@ INSERT INTO `users` VALUES ('1','Miss Brionna Walter PhD','05e8c5cd75a1dfba01385
 ('99','Blaise Reynolds','a74f7c7ee32bcc4a39790ebced9ad212','alysha.ratke@example.net'),
 ('100','Miss Tiara Herzog','3eb0bb5082586f751704e0d08a5c9946','hjohnson@example.net'); 
 
+DROP TABLE IF EXISTS `tokens`;
+CREATE TABLE `tokens` (
+  `token` int(4) unsigned NOT NULL,
+  `phpsessid` varchar(128) NOT NULL,
+  `time` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `dump`;
+CREATE TABLE `dump` (
+  `id` int(9) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(60) NOT NULL UNIQUE,
+  `password` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
 
+INSERT INTO `dump` VALUES ('1','tabib123','kamahamaha123'),
+('2','thomaspoopoo','minecraft12'),
+('3','spiderman','c7b4'),
+('4','carlos','C4rl0s87');
+
+DROP TABLE IF EXISTS `cookie_session_static`;
+CREATE TABLE `cookie_session_static` (
+  `static_session` varchar(60) NOT NULL UNIQUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `cookie_session_serial`;
+CREATE TABLE `cookie_session_serial` (
+  `serial_session` int NOT NULL AUTO_INCREMENT UNIQUE,
+  `id` int NOT NULL UNIQUE
+) ENGINE=InnoDB AUTO_INCREMENT=1234782 DEFAULT CHARSET=utf8;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

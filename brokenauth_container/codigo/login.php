@@ -1,6 +1,6 @@
 <?php
 session_start();
-$servername = "172.17.0.5";
+$servername = "172.30.150.13";
 $username = "root";
 $password = "d0ck3r5ql";
 $database = "things";
@@ -12,41 +12,41 @@ if ($conn->connect_error) {
 }
 
 $error = ""; //Variable for storing our errors.
-if(empty($_POST["login"]))
+if(empty($_POST["username"]) || empty($_POST["password"]))
 {
 $error = "No ha rellenado ambos campos.";
 }else
 {
-$login= @json_decode($_POST['login'], true);
-$username=$login['data']['username'];
+// Define $username and $password
+$username=$_POST['username'];
+$pass=$_POST['password'];
 
 // To protect from MySQL injection
 $username_clean = mysqli_real_escape_string($conn, $username);
-
+$pass_clean = mysqli_real_escape_string($conn, $pass);
 
 //Check username and password from database
-#print ("VARIABLES ENVIADAS:");
-#var_dump($username_clean);
-#var_dump($login['data']['password']);
-$sql="SELECT name, password FROM users WHERE name='$username_clean'";
+$sql="SELECT id,password FROM dump WHERE username='$username_clean' ";
 $result=mysqli_query($conn,$sql);
 $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
-#var_dump($row);
 //If username and password exist in our database then create a session.
 //Otherwise echo error.
-#print("valores de DB");
-#var_dump($row["name"]);
-#var_dump($row["password"]);
 
-if($login['data']['username'] == $row["name"]  && !strcmp($login['data']['password'], $row["password"]))
+if(mysqli_num_rows($result) == 1)
 {
-print ("LOGEADO CON EXITO");
-$_SESSION['logeado'] = "True"; // Initializing Session
-#header("location: user.php"); // Redirecting To Other Page
+	if($row['password'] === $pass_clean){
+	$_SESSION['id'] = $row['id'];
+	header("location: user.php");
+	}
+	else{ $error = "Incorrect password.";}
 }else
 {
-$error = "Incorrect username or password.";
+$error = "Incorrect username.";
+
 }
 
 }
+
+echo $error;
+?>
 

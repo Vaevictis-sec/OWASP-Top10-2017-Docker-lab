@@ -1,0 +1,5 @@
+#Para levantar un servidor ftp:
+python -m pyftpdlib
+
+#Para levantar un servidor HTTP
+python -m http.server 8000 &

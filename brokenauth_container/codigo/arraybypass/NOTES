@@ -1,0 +1,1 @@
+Cambiar el valor de la password (incluyendo las comillas) en la pestana de network por un [] nos permite bypassear el mecanismo de entrada al ser true la comparacion

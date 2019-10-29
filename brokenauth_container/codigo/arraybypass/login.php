@@ -1,9 +1,15 @@
 <?php
 session_start();
-$servername = "172.17.0.5";
+$servername = "172.30.150.13";
 $username = "root";
 $password = "d0ck3r5ql";
 $database = "things";
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);
 // Check connection
@@ -25,24 +31,20 @@ $username_clean = mysqli_real_escape_string($conn, $username);
 
 
 //Check username and password from database
-#print ("VARIABLES ENVIADAS:");
-#var_dump($username_clean);
-#var_dump($login['data']['password']);
+print ("VARIABLES ENVIADAS:");
+var_dump($username_clean);
+var_dump($login['data']['password']);
 $sql="SELECT name, password FROM users WHERE name='$username_clean'";
 $result=mysqli_query($conn,$sql);
 $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
 #var_dump($row);
 //If username and password exist in our database then create a session.
 //Otherwise echo error.
-#print("valores de DB");
-#var_dump($row["name"]);
-#var_dump($row["password"]);
-var_dump($login['data']['username']);
+print("valores de DB");
 var_dump($row["name"]);
-var_dump(hash("sha1", $login['data']['password']));
-var_dump(hash("sha1", $row["password"]));
+var_dump($row["password"]);
 
-if($login['data']['username'] == $row["name"]  && hash("sha1", $login['data']['password'])==hash("sha1",$row["password"]))
+if($login['data']['username'] == $row["name"]  && !strcmp($login['data']['password'], $row["password"]))
 {
 print ("LOGEADO CON EXITO");
 $_SESSION['logeado'] = "True"; // Initializing Session
@@ -54,3 +56,4 @@ $error = "Incorrect username or password.";
 
 }
 
+echo $error;

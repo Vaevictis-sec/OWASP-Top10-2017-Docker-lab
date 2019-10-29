@@ -6,7 +6,7 @@ Password:<br><input type="text" name="password"><br><br>
 </form>
 <?php
 if(isset($_GET['nombre'])){
-$servername = "172.17.0.5";
+$servername = "172.30.150.13";
 $username = "root";
 $password = "d0ck3r5ql";
 $database = "things";
@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 $name = $_GET['nombre']; 
 $password = $_GET['password'];
         $raw_results = mysqli_query($conn, "INSERT INTO  users (name, password, mail)
-            VALUES ('".(string)mysqli_real_escape_string($conn,$name)."','".$password."','test@test.org')");
+            VALUES ('".(string)mysqli_real_escape_string($conn,$name)."','".hash("sha1",$password)."','test@test.org')");
         if($raw_results === FALSE) { 
             echo "La consulta ha fallado." . mysqli_error($conn);
             die();
@@ -53,10 +53,10 @@ $password = $_GET['password'];
 //                var hashobj = new jsSHA("SHA-256", "TEXT");
 //                hashobj.update($('#password').val());
 //                var hashpass = hashobj.getHash("HEX");
-//		  var hash = sha1.create();
-//		  hash.update($('#password').val());
-//		  var hashpass = hash.hex();
-                  var data = {username: $('#username').val(), password: $('#password').val()};
+		  var hash = sha1.create();
+		  hash.update($('#password').val());
+		  var hashpass = hash.hex();
+                  var data = {username: $('#username').val(), password: hashpass};
 
                 $.ajax({
                     type: "POST",

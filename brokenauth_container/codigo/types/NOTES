@@ -1,6 +1,3 @@
-Cambiar cualquiera de los dos valores por un [] en la pestana de network nos permite bypassear el mecanismo de entrada al ser true la comparacion
-
-
 http://digitalloft.org/init/plugin_wiki/page/juggling-hashes-with-your-eyes-closed-in-php
 
 SHA-1 diferentes contrasenas que sirven igual con type juggling

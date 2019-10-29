@@ -1,32 +1,69 @@
-version: "3.7"
+version: "3"
 services:
 #Initial foothold
-	attack:
-               	build: ./attack_container/
+        attack:
+                build: ./attack_container/
                 ports:
-                      	-"2222:22"
+                  - "2222:22"
+                networks:
+                        laboratorio_owasp:
+                                ipv4_address: 172.30.150.2
 #Top1
         inject:
-               	build: ./inject_container/
+                build: ./inject_container/
+                networks:
+                        laboratorio_owasp:
+                                ipv4_address: 172.30.150.3
 #Top2
         brokenauth:
                 build: ./brokenauth_container/
+                networks:
+                        laboratorio_owasp:
+                                ipv4_address: 172.30.150.4
 #Top3
         sensitive:
                 build: ./sensitive_container/
+                networks:
+                        laboratorio_owasp:
+                                ipv4_address: 172.30.150.5
 #Top4
-        XXE:
+        xxe:
                 build: ./XXE_container/
+                networks:
+                        laboratorio_owasp:
+                                ipv4_address: 172.30.150.6
 #Top5
 #	FALTA ACCESOS DE CONTROL INSEGUROS
 #Top6
 #	FALTA FALLOS EN	CONFIGURACIONES	DE SEGURIDAD
 #Top7
-        XSS:	
+        xss:
                 build: ./XSS_container/
+                networks:
+                        laboratorio_owasp:
+                                ipv4_address: 172.30.150.9
 #Top8
-	FALTA DES-SERIALIZACIONES INSEGURAS
+#	FALTA DES-SERIALIZACIONES INSEGURAS
 #Top9
-	FALTA COMPONENTES CON VULNERABILIDADES CONOCIDAS
+#	FALTA COMPONENTES CON VULNERABILIDADES CONOCIDAS
 #Top10
-	FALTA LOGGING O MONITORIZACION INSUFICIENTE
+#	FALTA LOGGING O MONITORIZACION INSUFICIENTE
+
+
+#Back-end
+        sql:
+                build: ./sql_container/
+                environment:
+                        - MYSQL_ROOT_PASSWORD=d0ck3r5ql
+                        - MYSQL_DATABASE=things
+                networks:
+                        laboratorio_owasp:
+                                ipv4_address: 172.30.150.13
+
+
+networks:
+        laboratorio_owasp:
+                ipam:
+                        driver: bridge
+                        config:
+                                - subnet: 172.30.150.0/24

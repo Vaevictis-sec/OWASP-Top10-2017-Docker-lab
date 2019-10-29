@@ -1,6 +1,6 @@
 <?php
 session_start();
-$servername = "172.17.0.5";
+$servername = "172.30.150.13";
 $username = "root";
 $password = "d0ck3r5ql";
 $database = "things";
@@ -36,6 +36,7 @@ if(mysqli_num_rows($result) == 1)
 {
 	if($row['password'] === $pass_clean){
 	$_SESSION['id'] = $row['id'];
+	setcookie('id_sesion',hash('sha256',$row['id']),'secure','httponly');
 	header("location: user.php");
 	}
 	else{ $error = "Incorrect password.";}

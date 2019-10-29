@@ -5,7 +5,7 @@
 </form>
 <?php
 if(isset($_GET['query'])){
-$servername = "172.17.0.5";
+$servername = "172.30.150.13";
 $username = "root";
 $password = "d0ck3r5ql";
 $database = "things";

@@ -1,6 +1,6 @@
 <?php
 session_start();
-$servername = "172.17.0.5";
+$servername = "172.30.150.13";
 $username = "root";
 $password = "d0ck3r5ql";
 $database = "things";
@@ -37,8 +37,12 @@ $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
 #print("valores de DB");
 #var_dump($row["name"]);
 #var_dump($row["password"]);
+echo "Nombre enviado: " .$login['data']['username'];
+echo "<br>Nombre de base de datos: " .$row["name"];
+echo "<br>SHA1 de password enviada: " .hash("sha1", $login['data']['password']);
+echo "<br>SHA1 de password en base de datos: ".hash("sha1", $row["password"]) ."<br>";
 
-if($login['data']['username'] == $row["name"]  && !strcmp($login['data']['password'], $row["password"]))
+if($login['data']['username'] == $row["name"]  && hash("sha1", $login['data']['password'])==hash("sha1",$row["password"]))
 {
 print ("LOGEADO CON EXITO");
 $_SESSION['logeado'] = "True"; // Initializing Session
